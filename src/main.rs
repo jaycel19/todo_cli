@@ -18,9 +18,7 @@ enum Commands {
     Delete {
         id: Option<i32>,
     },
-    List {
-        todos: Vec<String>,
-    },
+    List,
     Update {
         id: Option<i32>,
         new_data: Option<String>,
@@ -37,14 +35,16 @@ fn args_match(args: Cli) {
     match args.command {
         Commands::Add { content } => {
             let task: String = content.unwrap().to_string();
-            sqlite::add(task);
+            let result = sqlite::add(task);
+            println!("{:?}", result);
         }
         Commands::Delete { id } => {
             let task_id: i32 = id.unwrap() as i32;
             println!("deleted task with id: {}", task_id);
         }
-        Commands::List { todos } => {
-            sqlite::list_todos();
+        Commands::List => {
+            let todos = sqlite::list_todos();
+            print!("{:?}", todos);
         }
         Commands::Update { id, new_data } => {
             let id = id.unwrap() as i32;
