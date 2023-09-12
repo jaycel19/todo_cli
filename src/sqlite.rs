@@ -16,7 +16,7 @@ pub fn add(task: String) -> Result<()> {
             task TEXT NOT NULL,
             completed BOOLEAN NOT NULL
         )",
-        (), // empty list of parameters.
+        (),
     )?;
     let new_todo = Todos {
         task,
