@@ -1,5 +1,4 @@
-use rusqlite::Result;
-mod db;
+use rusqlite::{Connection, Result};
 
 #[derive(Debug)]
 struct Todos {
@@ -7,8 +6,13 @@ struct Todos {
     completed: bool,
 }
 
+fn conn() -> Result<Connection> {
+    let conn = Connection::open("todos.db")?;
+    Ok(conn)
+}
+
 pub fn add(task: String) -> Result<()> {
-    let conn = db::conn().unwrap();
+    let conn = conn().unwrap();
 
     conn.execute(
         "CREATE TABLE IF NOT EXISTS todo (
@@ -30,7 +34,7 @@ pub fn add(task: String) -> Result<()> {
 }
 
 pub fn list_todos() -> Result<()> {
-    let conn = db::conn().unwrap();
+    let conn = conn().unwrap();
     let mut stmt = conn.prepare("SELECT id, task, completed FROM todo")?;
     let todos_iter = stmt.query_map([], |row| {
         Ok(Todos {
