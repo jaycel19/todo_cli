@@ -2,4 +2,4 @@
 
 ## Overview
 
-A simple cli tool for noting todos using rust and the clap
+A simple cli tool for noting todos. Written in rust using clap library
